@@ -330,19 +330,17 @@ Provide:
 2. Key details or requests (bullet points)
 3. Action items or deadlines (if any)`;
 
-        const response = await fetch('https://api.1min.ai/api/features', {
+        const response = await fetch('https://api.1min.ai/api/chat-with-ai', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'API-KEY': apiKey
           },
           body: JSON.stringify({
-            type: 'CHAT_WITH_AI',
+            type: 'UNIFY_CHAT_WITH_AI',
             model: model,
             promptObject: {
-              prompt: prompt,
-              isMixed: false,
-              webSearch: false
+              prompt: prompt
             }
           })
         });
