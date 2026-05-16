@@ -453,32 +453,43 @@ ${body.substring(0, 4000)}`;
       el.style.display = 'block';
     }
 
-    async function copyText(text, btn, label = 'Copy') {
+    function copyToClipboard(text, btn, label) {
       try {
-        await navigator.clipboard.writeText(text);
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = label, 2000);
-      } catch(_) {}
+      } catch(e) {
+        btn.textContent = 'Failed';
+        setTimeout(() => btn.textContent = label, 2000);
+      }
     }
 
     function copyAll(btn) {
       const tldr = document.getElementById('tldrText').textContent;
       const summary = document.getElementById('summaryText').textContent;
-      copyText(`TL;DR: ${tldr}\n\n${summary}`, btn, 'Copy all');
+      copyToClipboard('TL;DR: ' + tldr + '\n\n' + summary, btn, 'Copy all');
     }
 
     function copyTldr(btn) {
-      copyText(document.getElementById('tldrText').textContent, btn, 'Copy TL;DR');
+      copyToClipboard(document.getElementById('tldrText').textContent, btn, 'Copy TL;DR');
     }
 
     function shareSummary() {
       const tldr = document.getElementById('tldrText').textContent;
       const summary = document.getElementById('summaryText').textContent;
-      const text = `TL;DR: ${tldr}\n\n${summary}`;
+      const text = 'TL;DR: ' + tldr + '\n\n' + summary;
+      const btn = document.querySelector('.ghost-btn[onclick="shareSummary()"]');
       if (navigator.share) {
-        navigator.share({ title: 'Email Summary', text }).catch(() => {});
+        navigator.share({ title: 'Email Summary', text }).catch(() => copyToClipboard(text, btn, 'Share \u2197'));
       } else {
-        navigator.clipboard.writeText(text).then(() => alert('Summary copied — paste it anywhere to share!'));
+        copyToClipboard(text, btn, 'Share \u2197');
       }
     }
   </script>
