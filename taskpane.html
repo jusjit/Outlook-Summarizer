@@ -19,73 +19,117 @@
       --danger-bg: rgba(248,113,113,0.08);
       --danger-border: rgba(248,113,113,0.25);
     }
+    .light {
+      --bg: #f5f6fa;
+      --surface: #ffffff;
+      --border: #e2e5ed;
+      --accent: #4b7cf3;
+      --accent-hover: #3d6ce0;
+      --text: #1a1d26;
+      --text-muted: #7a8099;
+      --danger: #dc2626;
+      --danger-bg: rgba(220,38,38,0.06);
+      --danger-border: rgba(220,38,38,0.2);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', system-ui, sans-serif;
-      font-size: 14px;
       line-height: 1.5;
-      padding: 16px;
+      padding: 14px;
+      transition: background 0.2s, color 0.2s;
     }
 
+    /* Header */
     .header {
       display: flex; align-items: center; gap: 10px;
-      margin-bottom: 20px; padding-bottom: 16px;
+      margin-bottom: 16px; padding-bottom: 14px;
       border-bottom: 1px solid var(--border);
     }
     .header-icon {
-      width: 30px; height: 30px; background: var(--accent);
-      border-radius: 8px; display: flex; align-items: center;
-      justify-content: center; font-size: 15px; flex-shrink: 0;
+      width: 28px; height: 28px; background: var(--accent);
+      border-radius: 7px; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; flex-shrink: 0;
     }
-    .header-title { font-size: 15px; font-weight: 600; }
+    .header-title { font-size: 14px; font-weight: 600; flex: 1; }
     .header-sub { font-size: 11px; color: var(--text-muted); }
+    .header-controls { display: flex; gap: 6px; align-items: center; }
 
-    .section { margin-bottom: 13px; }
-
-    label {
-      display: block; font-size: 11px; font-weight: 500;
-      color: var(--text-muted); text-transform: uppercase;
-      letter-spacing: 0.6px; margin-bottom: 6px;
+    /* Theme + font controls */
+    .icon-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 8px; cursor: pointer;
+      color: var(--text-muted); font-size: 13px; line-height: 1;
+      transition: border-color 0.15s, color 0.15s;
+      font-family: inherit;
     }
+    .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+    .font-row {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 6px;
+    }
+    .font-label { font-size: 10px; color: var(--text-muted); }
+    .font-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-family: inherit;
+      padding: 1px 4px; border-radius: 3px; line-height: 1;
+      transition: color 0.15s;
+    }
+    .font-btn:hover { color: var(--accent); }
+    .font-size-val { font-size: 11px; color: var(--text); min-width: 18px; text-align: center; }
+
+    /* Form elements */
+    .section { margin-bottom: 12px; }
+    label {
+      display: block; font-size: 10px; font-weight: 500;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 5px;
+    }
     .key-wrap { position: relative; }
-
     input, select {
       width: 100%; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: 9px 12px; color: var(--text);
-      font-family: inherit; font-size: 13px; outline: none;
-      transition: border-color 0.15s; -webkit-appearance: none;
+      border: 1px solid var(--border); border-radius: 7px;
+      padding: 8px 11px; color: var(--text);
+      font-family: inherit; outline: none;
+      transition: border-color 0.15s, background 0.2s; -webkit-appearance: none;
     }
     input:focus, select:focus { border-color: var(--accent); }
-    .key-wrap input { padding-right: 48px; }
+    .key-wrap input { padding-right: 46px; }
     select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      padding-right: 32px; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 11px center;
+      padding-right: 30px; cursor: pointer;
     }
     select option { background: #1a1e27; }
-
+    .light select option { background: #ffffff; }
     .toggle-vis {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
       background: none; border: none; color: var(--text-muted);
-      cursor: pointer; font-size: 11px; font-family: inherit;
-      padding: 3px 5px; border-radius: 4px; transition: color 0.15s;
+      cursor: pointer; font-family: inherit; padding: 2px 4px; border-radius: 3px;
     }
-    .toggle-vis:hover { color: var(--text); }
+    .toggle-vis:hover { color: var(--accent); }
+    .model-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; padding-left: 1px; min-height: 15px; }
 
-    .model-hint {
-      font-size: 11px; color: var(--text-muted);
-      margin-top: 5px; padding-left: 2px;
-      min-height: 16px; transition: opacity 0.15s;
+    /* Summary length pills */
+    .pill-row { display: flex; gap: 5px; }
+    .pill {
+      flex: 1; padding: 7px 4px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-muted);
+      border-radius: 7px; font-family: inherit; font-size: 11px;
+      font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: center;
     }
+    .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(75,124,243,0.08); }
 
+    /* Buttons */
     .btn {
       width: 100%; background: var(--accent); color: white;
-      border: none; border-radius: 8px; padding: 11px;
-      font-family: inherit; font-size: 14px; font-weight: 500;
+      border: none; border-radius: 7px; padding: 10px;
+      font-family: inherit; font-weight: 500;
       cursor: pointer; transition: background 0.15s, transform 0.1s;
       margin-top: 4px;
     }
@@ -93,40 +137,52 @@
     .btn:active:not(:disabled) { transform: scale(0.985); }
     .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    .loading { display: none; text-align: center; padding: 28px 0; }
+    /* Loading */
+    .loading { display: none; text-align: center; padding: 24px 0; }
     .spinner {
-      width: 22px; height: 22px; border: 2px solid var(--border);
+      width: 20px; height: 20px; border: 2px solid var(--border);
       border-top-color: var(--accent); border-radius: 50%;
-      animation: spin 0.7s linear infinite; margin: 0 auto 10px;
+      animation: spin 0.7s linear infinite; margin: 0 auto 8px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { font-size: 13px; color: var(--text-muted); }
+    .loading-text { color: var(--text-muted); }
 
+    /* Error */
     .error {
       display: none; background: var(--danger-bg);
-      border: 1px solid var(--danger-border); border-radius: 8px;
-      padding: 11px 13px; margin-top: 12px; font-size: 13px;
+      border: 1px solid var(--danger-border); border-radius: 7px;
+      padding: 10px 12px; margin-top: 10px;
       color: var(--danger); line-height: 1.5;
     }
 
-    .result {
-      display: none; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 10px;
-      padding: 14px; margin-top: 14px;
+    /* Result */
+    .result { display: none; margin-top: 12px; }
+
+    .tldr-box {
+      background: rgba(75,124,243,0.08); border: 1px solid rgba(75,124,243,0.25);
+      border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;
     }
-    .result-label {
-      font-size: 11px; font-weight: 600; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px;
+    .tldr-label {
+      font-size: 10px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px;
     }
-    .result-text {
-      font-size: 13px; color: var(--text);
-      line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+    .tldr-text { color: var(--text); line-height: 1.6; font-weight: 500; }
+
+    .summary-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px;
     }
-    .result-actions { margin-top: 12px; display: flex; gap: 8px; }
+    .summary-label {
+      font-size: 10px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+    }
+    .summary-text { color: var(--text); line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+
+    .result-actions { margin-top: 10px; display: flex; gap: 7px; flex-wrap: wrap; }
     .ghost-btn {
       background: none; border: 1px solid var(--border); color: var(--text-muted);
-      border-radius: 6px; padding: 5px 11px; font-size: 11px;
-      cursor: pointer; font-family: inherit; transition: border-color 0.15s, color 0.15s;
+      border-radius: 6px; padding: 5px 11px; font-family: inherit;
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
     }
     .ghost-btn:hover { border-color: var(--accent); color: var(--accent); }
   </style>
@@ -135,9 +191,18 @@
 
   <div class="header">
     <div class="header-icon">✦</div>
-    <div>
+    <div style="flex:1">
       <div class="header-title">Email Summarizer</div>
       <div class="header-sub">Powered by 1min.ai</div>
+    </div>
+    <div class="header-controls">
+      <div class="font-row">
+        <span class="font-label">Aa</span>
+        <button class="font-btn" onclick="adjustFont(-1)">−</button>
+        <span class="font-size-val" id="fontVal">13</span>
+        <button class="font-btn" onclick="adjustFont(1)">+</button>
+      </div>
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">☀︎</button>
     </div>
   </div>
 
@@ -152,56 +217,109 @@
   <div class="section">
     <label>Model</label>
     <select id="model" onchange="updateHint()">
-      <option value="claude-sonnet-4-5">Claude Sonnet 4.5</option>
-      <option value="gpt-4o">GPT-4o</option>
       <option value="gpt-4o-mini">GPT-4o Mini</option>
-      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+      <option value="gpt-4o">GPT-4o</option>
       <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5</option>
     </select>
     <div class="model-hint" id="modelHint"></div>
+  </div>
+
+  <div class="section">
+    <label>Summary Length</label>
+    <div class="pill-row">
+      <button class="pill" onclick="setLength('short', this)">Short</button>
+      <button class="pill active" onclick="setLength('medium', this)">Medium</button>
+      <button class="pill" onclick="setLength('detailed', this)">Detailed</button>
+    </div>
   </div>
 
   <button class="btn" id="summarizeBtn" onclick="summarize()">✦ &nbsp;Summarize this email</button>
 
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <div class="loading-text">Reading and summarizing…</div>
+    <div class="loading-text" id="loadingText">Reading and summarizing…</div>
   </div>
 
   <div class="error" id="error"></div>
 
   <div class="result" id="result">
-    <div class="result-label">✦ &nbsp;Summary</div>
-    <div class="result-text" id="resultText"></div>
+    <div class="tldr-box">
+      <div class="tldr-label">TL;DR</div>
+      <div class="tldr-text" id="tldrText"></div>
+    </div>
+    <div class="summary-box">
+      <div class="summary-label">✦ Summary</div>
+      <div class="summary-text" id="summaryText"></div>
+    </div>
     <div class="result-actions">
-      <button class="ghost-btn" onclick="copyResult(this)">Copy</button>
+      <button class="ghost-btn" onclick="copyAll(this)">Copy all</button>
+      <button class="ghost-btn" onclick="copyTldr(this)">Copy TL;DR</button>
+      <button class="ghost-btn" onclick="shareSummary()">Share ↗</button>
       <button class="ghost-btn" onclick="document.getElementById('result').style.display='none'">Clear</button>
     </div>
   </div>
 
   <script>
     const MODEL_HINTS = {
-      'claude-sonnet-4-5':        '⭐ Best quality — recommended for most emails',
-      'gpt-4o':                   '⚡ Fast & highly capable',
-      'gpt-4o-mini':              '🚀 Fastest response time',
-      'gemini-2.0-flash':         '🌐 Fast with strong reasoning',
-      'claude-haiku-4-5-20251001':'💰 Cheapest — great for high volume'
+      'gpt-4o-mini':              '💰 Cheapest & fastest — great for high volume',
+      'gpt-4o':                   '⭐ Best quality — recommended for most emails',
+      'claude-haiku-4-5-20251001':'⚡ Fast but pricier than GPT-4o Mini'
     };
+
+    const LENGTH_PROMPTS = {
+      short:    'Give ONLY a TL;DR one-liner (max 20 words), then write 2-3 short bullet points covering the key points. Be very concise.',
+      medium:   'Give ONLY a TL;DR one-liner (max 25 words), then write a short paragraph (3-4 sentences) summarizing the key points and any action items.',
+      detailed: 'Give ONLY a TL;DR one-liner (max 30 words), then write a detailed summary including: main purpose, all key points, specific action items or deadlines, and any important context. Use clear paragraphs.'
+    };
+
+    let summaryLength = 'medium';
+    let fontSize = 13;
+    let isDark = true;
+
+    const loadingMessages = [
+      'Reading your email…',
+      'Thinking it through…',
+      'Almost there…',
+      'Crafting your summary…'
+    ];
+    let loadingInterval;
 
     Office.onReady(() => {
       const savedKey = localStorage.getItem('1minai_key');
       if (savedKey) document.getElementById('apiKey').value = savedKey;
+
       const savedModel = localStorage.getItem('1minai_model');
       if (savedModel) {
         const sel = document.getElementById('model');
         if ([...sel.options].some(o => o.value === savedModel)) sel.value = savedModel;
       }
+
+      const savedFont = localStorage.getItem('1minai_font');
+      if (savedFont) { fontSize = parseInt(savedFont); applyFont(); }
+
+      const savedTheme = localStorage.getItem('1minai_theme');
+      if (savedTheme === 'light') applyTheme(false);
+
+      const savedLength = localStorage.getItem('1minai_length');
+      if (savedLength) {
+        summaryLength = savedLength;
+        document.querySelectorAll('.pill').forEach(p => {
+          p.classList.toggle('active', p.textContent.toLowerCase() === savedLength);
+        });
+      }
+
       updateHint();
     });
 
     function updateHint() {
-      const model = document.getElementById('model').value;
-      document.getElementById('modelHint').textContent = MODEL_HINTS[model] || '';
+      document.getElementById('modelHint').textContent = MODEL_HINTS[document.getElementById('model').value] || '';
+    }
+
+    function setLength(len, btn) {
+      summaryLength = len;
+      localStorage.setItem('1minai_length', len);
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
     }
 
     function toggleKey() {
@@ -212,10 +330,34 @@
       btn.textContent = hidden ? 'hide' : 'show';
     }
 
+    function adjustFont(delta) {
+      fontSize = Math.min(18, Math.max(11, fontSize + delta));
+      localStorage.setItem('1minai_font', fontSize);
+      applyFont();
+    }
+
+    function applyFont() {
+      document.getElementById('fontVal').textContent = fontSize;
+      document.querySelectorAll('.tldr-text, .summary-text, .loading-text').forEach(el => {
+        el.style.fontSize = fontSize + 'px';
+      });
+    }
+
+    function toggleTheme() {
+      isDark = !isDark;
+      applyTheme(isDark);
+      localStorage.setItem('1minai_theme', isDark ? 'dark' : 'light');
+    }
+
+    function applyTheme(dark) {
+      isDark = dark;
+      document.body.classList.toggle('light', !dark);
+      document.getElementById('themeBtn').textContent = dark ? '☀︎' : '☾';
+    }
+
     async function summarize() {
       const apiKey = document.getElementById('apiKey').value.trim();
       const model = document.getElementById('model').value;
-
       if (!apiKey) { showError('Please enter your 1min.ai API key first.'); return; }
 
       localStorage.setItem('1minai_key', apiKey);
@@ -235,44 +377,51 @@
           });
         });
 
-        const prompt = `Summarize this email clearly and concisely:
+        const lengthInstruction = LENGTH_PROMPTS[summaryLength];
 
+        const prompt = `You are summarizing an email. ${lengthInstruction}
+
+Format your response EXACTLY like this — two sections separated by "|||":
+[Your TL;DR one-liner here]|||[Your summary here]
+
+Email:
 From: ${sender}
 Date: ${date}
 Subject: ${subject}
 
-${body.substring(0, 4000)}
-
-Provide:
-1. Main point (1 sentence)
-2. Key details or requests (bullet points)
-3. Action items or deadlines (if any)`;
+${body.substring(0, 4000)}`;
 
         const res = await fetch('https://api.1min.ai/api/chat-with-ai', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'API-KEY': apiKey },
           body: JSON.stringify({
             type: 'UNIFY_CHAT_WITH_AI',
-            model: model,
+            model,
             promptObject: { prompt }
           })
         });
 
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
-          throw new Error(err?.error?.message || err?.message || `HTTP ${res.status} — check your API key`);
+          throw new Error(err?.error?.message || err?.message || `HTTP ${res.status}`);
         }
 
         const data = await res.json();
-        const summary =
-          data?.aiRecord?.aiRecordDetail?.resultObject?.[0] ||
-          data?.choices?.[0]?.message?.content ||
-          data?.result || null;
+        const raw = data?.aiRecord?.aiRecordDetail?.resultObject?.[0]
+          || data?.choices?.[0]?.message?.content
+          || data?.result;
 
-        if (!summary) throw new Error('Unexpected response from 1min.ai — please try again.');
+        if (!raw) throw new Error('Unexpected response from 1min.ai — please try again.');
 
-        document.getElementById('resultText').textContent = summary;
+        // Parse the ||| separator
+        const parts = raw.split('|||');
+        const tldr = parts[0].trim();
+        const summary = parts.length > 1 ? parts[1].trim() : raw.trim();
+
+        document.getElementById('tldrText').textContent = tldr;
+        document.getElementById('summaryText').textContent = summary;
         document.getElementById('result').style.display = 'block';
+        applyFont();
 
       } catch(e) {
         showError(e.message || 'Something went wrong. Check your API key and try again.');
@@ -287,6 +436,14 @@ Provide:
       if (on) {
         document.getElementById('error').style.display = 'none';
         document.getElementById('result').style.display = 'none';
+        let i = 0;
+        document.getElementById('loadingText').textContent = loadingMessages[0];
+        loadingInterval = setInterval(() => {
+          i = (i + 1) % loadingMessages.length;
+          document.getElementById('loadingText').textContent = loadingMessages[i];
+        }, 2000);
+      } else {
+        clearInterval(loadingInterval);
       }
     }
 
@@ -296,12 +453,33 @@ Provide:
       el.style.display = 'block';
     }
 
-    async function copyResult(btn) {
+    async function copyText(text, btn, label = 'Copy') {
       try {
-        await navigator.clipboard.writeText(document.getElementById('resultText').textContent);
+        await navigator.clipboard.writeText(text);
         btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy', 2000);
+        setTimeout(() => btn.textContent = label, 2000);
       } catch(_) {}
+    }
+
+    function copyAll(btn) {
+      const tldr = document.getElementById('tldrText').textContent;
+      const summary = document.getElementById('summaryText').textContent;
+      copyText(`TL;DR: ${tldr}\n\n${summary}`, btn, 'Copy all');
+    }
+
+    function copyTldr(btn) {
+      copyText(document.getElementById('tldrText').textContent, btn, 'Copy TL;DR');
+    }
+
+    function shareSummary() {
+      const tldr = document.getElementById('tldrText').textContent;
+      const summary = document.getElementById('summaryText').textContent;
+      const text = `TL;DR: ${tldr}\n\n${summary}`;
+      if (navigator.share) {
+        navigator.share({ title: 'Email Summary', text }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(text).then(() => alert('Summary copied — paste it anywhere to share!'));
+      }
     }
   </script>
 </body>
