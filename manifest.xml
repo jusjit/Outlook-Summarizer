@@ -6,7 +6,7 @@
   xsi:type="MailApp">
 
   <Id>4f7e9a3b-8c2d-4e5f-a1b6-9d8e3c7f2a1b</Id>
-  <Version>1.0.3.0</Version>
+  <Version>1.0.5.0</Version>
   <ProviderName>AI Email Summarizer</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="AI Summarizer"/>
@@ -103,13 +103,8 @@
       </bt:LongStrings>
     </Resources>
 
-    <!-- V1_1 nested: Mobile (no FunctionFile) -->
+    <!-- V1_1 nested: Mobile -->
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-      <Requirements>
-        <bt:Sets DefaultMinVersion="1.5">
-          <bt:Set Name="Mailbox"/>
-        </bt:Sets>
-      </Requirements>
 
       <Hosts>
         <Host xsi:type="MailHost">
