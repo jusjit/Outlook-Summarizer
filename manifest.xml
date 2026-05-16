@@ -6,7 +6,7 @@
   xsi:type="MailApp">
 
   <Id>4f7e9a3b-8c2d-4e5f-a1b6-9d8e3c7f2a1b</Id>
-  <Version>1.0.1.0</Version>
+  <Version>1.0.3.0</Version>
   <ProviderName>AI Email Summarizer</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="AI Summarizer"/>
@@ -17,7 +17,6 @@
 
   <AppDomains>
     <AppDomain>https://api.1min.ai</AppDomain>
-    <AppDomain>https://outlook.office.com</AppDomain>
   </AppDomains>
 
   <Hosts>
@@ -104,7 +103,7 @@
       </bt:LongStrings>
     </Resources>
 
-    <!-- V1_1 nested: Mobile -->
+    <!-- V1_1 nested: Mobile (no FunctionFile) -->
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
       <Requirements>
         <bt:Sets DefaultMinVersion="1.5">
@@ -115,7 +114,6 @@
       <Hosts>
         <Host xsi:type="MailHost">
           <MobileFormFactor>
-            <FunctionFile resid="Commands.Url"/>
             <ExtensionPoint xsi:type="MobileMessageReadCommandSurface">
               <Group id="mobileGroup">
                 <Label resid="GroupLabel"/>

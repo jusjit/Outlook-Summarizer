@@ -10,7 +10,6 @@
     :root {
       --bg: #0d0f14;
       --surface: #161922;
-      --surface2: #1e2330;
       --border: #252a35;
       --accent: #4b7cf3;
       --accent-hover: #3d6ce0;
@@ -19,7 +18,6 @@
       --danger: #f87171;
       --danger-bg: rgba(248,113,113,0.08);
       --danger-border: rgba(248,113,113,0.25);
-      --success: #34d399;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -28,13 +26,12 @@
       font-family: 'DM Sans', system-ui, sans-serif;
       font-size: 14px;
       line-height: 1.5;
-      padding: 14px;
+      padding: 16px;
     }
 
-    /* Header */
     .header {
       display: flex; align-items: center; gap: 10px;
-      margin-bottom: 16px; padding-bottom: 14px;
+      margin-bottom: 20px; padding-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
     .header-icon {
@@ -45,143 +42,93 @@
     .header-title { font-size: 15px; font-weight: 600; }
     .header-sub { font-size: 11px; color: var(--text-muted); }
 
-    /* Settings bar */
-    .settings { margin-bottom: 14px; display: flex; gap: 8px; }
-    .settings input, .settings select {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 8px 10px; color: var(--text);
-      font-family: inherit; font-size: 12px; outline: none;
+    .section { margin-bottom: 13px; }
+
+    label {
+      display: block; font-size: 11px; font-weight: 500;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 6px;
+    }
+
+    .key-wrap { position: relative; }
+
+    input, select {
+      width: 100%; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 9px 12px; color: var(--text);
+      font-family: inherit; font-size: 13px; outline: none;
       transition: border-color 0.15s; -webkit-appearance: none;
     }
-    .settings input { flex: 1; padding-right: 44px; }
-    .settings select {
-      flex-shrink: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 8px center;
-      padding-right: 24px; cursor: pointer;
+    input:focus, select:focus { border-color: var(--accent); }
+    .key-wrap input { padding-right: 48px; }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      padding-right: 32px; cursor: pointer;
     }
-    .settings input:focus, .settings select:focus { border-color: var(--accent); }
     select option { background: #1a1e27; }
-    .key-wrap { position: relative; flex: 1; }
+
     .toggle-vis {
-      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
       background: none; border: none; color: var(--text-muted);
-      cursor: pointer; font-size: 11px; font-family: inherit; padding: 2px 4px;
+      cursor: pointer; font-size: 11px; font-family: inherit;
+      padding: 3px 5px; border-radius: 4px; transition: color 0.15s;
     }
     .toggle-vis:hover { color: var(--text); }
 
-    /* Tabs */
-    .tabs {
-      display: flex; gap: 2px; margin-bottom: 14px;
-      background: var(--surface); border-radius: 8px; padding: 3px;
+    .model-hint {
+      font-size: 11px; color: var(--text-muted);
+      margin-top: 5px; padding-left: 2px;
+      min-height: 16px; transition: opacity 0.15s;
     }
-    .tab {
-      flex: 1; padding: 7px; border: none; background: none;
-      color: var(--text-muted); font-family: inherit; font-size: 12px;
-      font-weight: 500; cursor: pointer; border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
-    }
-    .tab.active { background: var(--accent); color: white; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
 
-    /* Buttons */
     .btn {
       width: 100%; background: var(--accent); color: white;
-      border: none; border-radius: 8px; padding: 10px;
-      font-family: inherit; font-size: 13px; font-weight: 500;
+      border: none; border-radius: 8px; padding: 11px;
+      font-family: inherit; font-size: 14px; font-weight: 500;
       cursor: pointer; transition: background 0.15s, transform 0.1s;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 4px;
     }
     .btn:hover:not(:disabled) { background: var(--accent-hover); }
     .btn:active:not(:disabled) { transform: scale(0.985); }
     .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn.secondary {
-      background: var(--surface2); color: var(--text);
-      margin-top: 8px; font-size: 12px;
-    }
-    .btn.secondary:hover:not(:disabled) { background: var(--border); }
 
-    /* Batch count selector */
-    .count-row {
-      display: flex; gap: 6px; margin-bottom: 12px;
-    }
-    .count-btn {
-      flex: 1; padding: 7px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text-muted);
-      border-radius: 6px; font-family: inherit; font-size: 12px;
-      font-weight: 500; cursor: pointer; transition: all 0.15s;
-      text-align: center;
-    }
-    .count-btn.selected { border-color: var(--accent); color: var(--accent); background: rgba(75,124,243,0.1); }
-
-    /* Loading */
-    .loading { display: none; text-align: center; padding: 24px 0; }
+    .loading { display: none; text-align: center; padding: 28px 0; }
     .spinner {
-      width: 20px; height: 20px; border: 2px solid var(--border);
+      width: 22px; height: 22px; border: 2px solid var(--border);
       border-top-color: var(--accent); border-radius: 50%;
-      animation: spin 0.7s linear infinite; margin: 0 auto 8px;
+      animation: spin 0.7s linear infinite; margin: 0 auto 10px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { font-size: 12px; color: var(--text-muted); }
-    .progress-bar-wrap {
-      background: var(--surface); border-radius: 4px;
-      height: 4px; margin: 10px 0 6px; overflow: hidden;
-    }
-    .progress-bar {
-      height: 100%; background: var(--accent);
-      border-radius: 4px; transition: width 0.4s ease;
-    }
-    .progress-text { font-size: 11px; color: var(--text-muted); }
+    .loading-text { font-size: 13px; color: var(--text-muted); }
 
-    /* Error */
     .error {
       display: none; background: var(--danger-bg);
       border: 1px solid var(--danger-border); border-radius: 8px;
-      padding: 10px 12px; margin-top: 10px; font-size: 12px;
+      padding: 11px 13px; margin-top: 12px; font-size: 13px;
       color: var(--danger); line-height: 1.5;
     }
 
-    /* Result cards */
-    .result { display: none; margin-top: 12px; }
+    .result {
+      display: none; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px; margin-top: 14px;
+    }
     .result-label {
       font-size: 11px; font-weight: 600; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px;
     }
     .result-text {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px; font-size: 13px;
-      color: var(--text); line-height: 1.7; white-space: pre-wrap;
+      font-size: 13px; color: var(--text);
+      line-height: 1.7; white-space: pre-wrap; word-break: break-word;
     }
-    .result-actions { margin-top: 10px; display: flex; gap: 8px; }
+    .result-actions { margin-top: 12px; display: flex; gap: 8px; }
     .ghost-btn {
       background: none; border: 1px solid var(--border); color: var(--text-muted);
-      border-radius: 6px; padding: 5px 10px; font-size: 11px;
+      border-radius: 6px; padding: 5px 11px; font-size: 11px;
       cursor: pointer; font-family: inherit; transition: border-color 0.15s, color 0.15s;
     }
     .ghost-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* Batch result cards */
-    .batch-results { margin-top: 12px; }
-    .email-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px; margin-bottom: 10px;
-    }
-    .email-card-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 4px;
-    }
-    .email-sender { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; margin-right: 8px; }
-    .email-date { font-size: 11px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
-    .email-subject { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-    .email-summary { font-size: 12px; color: var(--text); line-height: 1.6; }
-    .email-card.pending .email-summary { color: var(--text-muted); font-style: italic; }
-    .email-card.done { border-color: rgba(75,124,243,0.3); }
-    .batch-meta {
-      font-size: 11px; color: var(--text-muted); margin-bottom: 10px;
-      padding: 8px 10px; background: var(--surface);
-      border-radius: 6px; border: 1px solid var(--border);
-    }
   </style>
 </head>
 <body>
@@ -194,69 +141,52 @@
     </div>
   </div>
 
-  <!-- Settings: API key + model, shared across tabs -->
-  <div class="settings">
+  <div class="section">
+    <label>1min.ai API Key</label>
     <div class="key-wrap">
-      <input type="password" id="apiKey" placeholder="1min.ai API key…" autocomplete="off" spellcheck="false">
+      <input type="password" id="apiKey" placeholder="Paste your API key…" autocomplete="off" spellcheck="false">
       <button class="toggle-vis" onclick="toggleKey()">show</button>
     </div>
-    <select id="model">
-      <option value="claude-sonnet-4-5">Claude Sonnet</option>
+  </div>
+
+  <div class="section">
+    <label>Model</label>
+    <select id="model" onchange="updateHint()">
+      <option value="claude-sonnet-4-5">Claude Sonnet 4.5</option>
       <option value="gpt-4o">GPT-4o</option>
       <option value="gpt-4o-mini">GPT-4o Mini</option>
-      <option value="gemini-2.0-flash">Gemini Flash</option>
-      <option value="claude-haiku-4-5-20251001">Claude Haiku</option>
+      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+      <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5</option>
     </select>
+    <div class="model-hint" id="modelHint"></div>
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('current')">✦ Current Email</button>
-    <button class="tab" onclick="switchTab('batch')">⊞ Inbox Batch</button>
+  <button class="btn" id="summarizeBtn" onclick="summarize()">✦ &nbsp;Summarize this email</button>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Reading and summarizing…</div>
   </div>
 
-  <!-- TAB 1: Current Email -->
-  <div class="tab-panel active" id="panel-current">
-    <button class="btn" id="summarizeBtn" onclick="summarizeCurrent()">✦ Summarize this email</button>
-    <div class="loading" id="loading-current">
-      <div class="spinner"></div>
-      <div class="loading-text">Reading and summarizing…</div>
-    </div>
-    <div class="error" id="error-current"></div>
-    <div class="result" id="result-current">
-      <div class="result-label">✦ Summary</div>
-      <div class="result-text" id="result-text-current"></div>
-      <div class="result-actions">
-        <button class="ghost-btn" onclick="copyText('result-text-current', this)">Copy</button>
-        <button class="ghost-btn" onclick="document.getElementById('result-current').style.display='none'">Clear</button>
-      </div>
-    </div>
-  </div>
+  <div class="error" id="error"></div>
 
-  <!-- TAB 2: Inbox Batch -->
-  <div class="tab-panel" id="panel-batch">
-    <div class="batch-meta">Fetches your most recent inbox emails and summarizes each one.</div>
-    <div class="count-row">
-      <button class="count-btn" onclick="selectCount(5, this)">5 emails</button>
-      <button class="count-btn selected" onclick="selectCount(10, this)">10 emails</button>
-      <button class="count-btn" onclick="selectCount(20, this)">20 emails</button>
+  <div class="result" id="result">
+    <div class="result-label">✦ &nbsp;Summary</div>
+    <div class="result-text" id="resultText"></div>
+    <div class="result-actions">
+      <button class="ghost-btn" onclick="copyResult(this)">Copy</button>
+      <button class="ghost-btn" onclick="document.getElementById('result').style.display='none'">Clear</button>
     </div>
-    <button class="btn" id="batchBtn" onclick="summarizeBatch()">⊞ Summarize Inbox</button>
-    <button class="btn secondary" id="clearBatchBtn" onclick="clearBatch()" style="display:none">Clear results</button>
-    <div class="loading" id="loading-batch">
-      <div class="spinner"></div>
-      <div class="loading-text" id="batch-loading-text">Fetching emails…</div>
-      <div class="progress-bar-wrap" id="progress-wrap" style="display:none">
-        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
-      </div>
-      <div class="progress-text" id="progress-text"></div>
-    </div>
-    <div class="error" id="error-batch"></div>
-    <div class="batch-results" id="batch-results"></div>
   </div>
 
   <script>
-    let batchCount = 10;
+    const MODEL_HINTS = {
+      'claude-sonnet-4-5':        '⭐ Best quality — recommended for most emails',
+      'gpt-4o':                   '⚡ Fast & highly capable',
+      'gpt-4o-mini':              '🚀 Fastest response time',
+      'gemini-2.0-flash':         '🌐 Fast with strong reasoning',
+      'claude-haiku-4-5-20251001':'💰 Cheapest — great for high volume'
+    };
 
     Office.onReady(() => {
       const savedKey = localStorage.getItem('1minai_key');
@@ -266,7 +196,13 @@
         const sel = document.getElementById('model');
         if ([...sel.options].some(o => o.value === savedModel)) sel.value = savedModel;
       }
+      updateHint();
     });
+
+    function updateHint() {
+      const model = document.getElementById('model').value;
+      document.getElementById('modelHint').textContent = MODEL_HINTS[model] || '';
+    }
 
     function toggleKey() {
       const input = document.getElementById('apiKey');
@@ -276,220 +212,93 @@
       btn.textContent = hidden ? 'hide' : 'show';
     }
 
-    function switchTab(tab) {
-      document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['current','batch'][i] === tab));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('panel-' + tab).classList.add('active');
-    }
+    async function summarize() {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('model').value;
 
-    function selectCount(n, btn) {
-      batchCount = n;
-      document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    }
+      if (!apiKey) { showError('Please enter your 1min.ai API key first.'); return; }
 
-    function getApiKey() {
-      const key = document.getElementById('apiKey').value.trim();
-      if (key) {
-        localStorage.setItem('1minai_key', key);
-        localStorage.setItem('1minai_model', document.getElementById('model').value);
-      }
-      return key;
-    }
+      localStorage.setItem('1minai_key', apiKey);
+      localStorage.setItem('1minai_model', model);
+      setLoading(true);
 
-    function getModel() { return document.getElementById('model').value; }
-
-    async function callAI(prompt) {
-      const res = await fetch('https://api.1min.ai/api/chat-with-ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'API-KEY': getApiKey() },
-        body: JSON.stringify({
-          type: 'UNIFY_CHAT_WITH_AI',
-          model: getModel(),
-          promptObject: { prompt }
-        })
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error?.message || err?.message || `HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      const summary = data?.aiRecord?.aiRecordDetail?.resultObject?.[0]
-        || data?.choices?.[0]?.message?.content
-        || data?.result;
-      if (!summary) throw new Error('Unexpected response from 1min.ai');
-      return summary;
-    }
-
-    // ── TAB 1: Current Email ──────────────────────────────────────────────
-
-    async function summarizeCurrent() {
-      if (!getApiKey()) { showError('error-current', 'Please enter your 1min.ai API key.'); return; }
-      setLoading('current', true);
       try {
         const item = Office.context.mailbox.item;
         const subject = item.subject || '(No subject)';
-        const sender = item.from ? `${item.from.displayName} <${item.from.emailAddress}>` : 'Unknown';
+        const sender = item.from ? `${item.from.displayName} <${item.from.emailAddress}>` : 'Unknown sender';
         const date = item.dateTimeCreated ? new Date(item.dateTimeCreated).toLocaleString() : '';
-        const body = await getBody(item);
-        const prompt = `Summarize this email clearly:\n\nFrom: ${sender}\nDate: ${date}\nSubject: ${subject}\n\n${body.substring(0, 4000)}\n\nProvide:\n1. Main point (1 sentence)\n2. Key details or requests (bullet points)\n3. Action items or deadlines (if any)`;
-        const summary = await callAI(prompt);
-        document.getElementById('result-text-current').textContent = summary;
-        document.getElementById('result-current').style.display = 'block';
-      } catch(e) {
-        showError('error-current', e.message);
-      } finally {
-        setLoading('current', false);
-      }
-    }
 
-    // ── TAB 2: Batch Inbox ────────────────────────────────────────────────
-
-    async function summarizeBatch() {
-      if (!getApiKey()) { showError('error-batch', 'Please enter your 1min.ai API key.'); return; }
-      document.getElementById('batchBtn').disabled = true;
-      document.getElementById('loading-batch').style.display = 'block';
-      document.getElementById('error-batch').style.display = 'none';
-      document.getElementById('batch-results').innerHTML = '';
-      document.getElementById('clearBatchBtn').style.display = 'none';
-      document.getElementById('progress-wrap').style.display = 'none';
-      setBatchLoadingText('Connecting to your mailbox…');
-
-      try {
-        // Get REST token from Outlook
-        const token = await new Promise((resolve, reject) => {
-          Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, result => {
-            if (result.status === Office.AsyncResultStatus.Succeeded) resolve(result.value);
-            else reject(new Error('Could not get mailbox token: ' + result.error.message));
+        const body = await new Promise((resolve, reject) => {
+          item.body.getAsync(Office.CoercionType.Text, result => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) resolve(result.value.trim());
+            else reject(new Error(result.error.message));
           });
         });
 
-        setBatchLoadingText(`Fetching your ${batchCount} most recent emails…`);
+        const prompt = `Summarize this email clearly and concisely:
 
-        const restUrl = Office.context.mailbox.restUrl || 'https://outlook.office.com';
-        const resp = await fetch(
-          `${restUrl}/v2.0/me/messages?$top=${batchCount}&$select=Subject,From,ReceivedDateTime,Body&$orderby=ReceivedDateTime desc&$filter=isDraft eq false`,
-          { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
-        );
+From: ${sender}
+Date: ${date}
+Subject: ${subject}
 
-        if (!resp.ok) {
-          const e = await resp.json().catch(() => ({}));
-          throw new Error(e?.error?.message || `Mailbox API error ${resp.status}`);
-        }
+${body.substring(0, 4000)}
 
-        const data = await resp.json();
-        const messages = data.value || [];
-        if (!messages.length) throw new Error('No emails found in your inbox.');
+Provide:
+1. Main point (1 sentence)
+2. Key details or requests (bullet points)
+3. Action items or deadlines (if any)`;
 
-        // Render pending cards immediately
-        const resultsEl = document.getElementById('batch-results');
-        messages.forEach((msg, i) => {
-          const date = msg.ReceivedDateTime ? formatDate(msg.ReceivedDateTime) : '';
-          const sender = msg.From?.EmailAddress?.Name || msg.From?.EmailAddress?.Address || 'Unknown';
-          resultsEl.innerHTML += `
-            <div class="email-card pending" id="card-${i}">
-              <div class="email-card-header">
-                <span class="email-sender">${esc(sender)}</span>
-                <span class="email-date">${esc(date)}</span>
-              </div>
-              <div class="email-subject">${esc(msg.Subject || '(No subject)')}</div>
-              <div class="email-summary" id="summary-${i}">Summarizing…</div>
-            </div>`;
+        const res = await fetch('https://api.1min.ai/api/chat-with-ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'API-KEY': apiKey },
+          body: JSON.stringify({
+            type: 'UNIFY_CHAT_WITH_AI',
+            model: model,
+            promptObject: { prompt }
+          })
         });
 
-        // Show progress bar
-        document.getElementById('progress-wrap').style.display = 'block';
-
-        // Summarize sequentially
-        for (let i = 0; i < messages.length; i++) {
-          const msg = messages[i];
-          updateProgress(i, messages.length);
-
-          try {
-            const bodyText = msg.Body?.Content
-              ? msg.Body.Content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 3000)
-              : '(No body)';
-            const sender = msg.From?.EmailAddress?.Name || '';
-            const prompt = `Summarize this email in 2-3 sentences, focusing on what matters:\n\nFrom: ${sender}\nSubject: ${msg.Subject || ''}\n\n${bodyText}`;
-            const summary = await callAI(prompt);
-            document.getElementById(`summary-${i}`).textContent = summary;
-            document.getElementById(`card-${i}`).classList.remove('pending');
-            document.getElementById(`card-${i}`).classList.add('done');
-          } catch(e) {
-            document.getElementById(`summary-${i}`).textContent = '⚠ Could not summarize: ' + e.message;
-          }
-
-          updateProgress(i + 1, messages.length);
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err?.error?.message || err?.message || `HTTP ${res.status} — check your API key`);
         }
 
-        document.getElementById('clearBatchBtn').style.display = 'flex';
+        const data = await res.json();
+        const summary =
+          data?.aiRecord?.aiRecordDetail?.resultObject?.[0] ||
+          data?.choices?.[0]?.message?.content ||
+          data?.result || null;
+
+        if (!summary) throw new Error('Unexpected response from 1min.ai — please try again.');
+
+        document.getElementById('resultText').textContent = summary;
+        document.getElementById('result').style.display = 'block';
 
       } catch(e) {
-        showError('error-batch', e.message + (e.message.includes('token') ? '\n\nTip: This feature requires the ReadWriteMailbox permission. Make sure you reinstalled the updated manifest.' : ''));
+        showError(e.message || 'Something went wrong. Check your API key and try again.');
       } finally {
-        document.getElementById('loading-batch').style.display = 'none';
-        document.getElementById('batchBtn').disabled = false;
+        setLoading(false);
       }
     }
 
-    function clearBatch() {
-      document.getElementById('batch-results').innerHTML = '';
-      document.getElementById('clearBatchBtn').style.display = 'none';
-    }
-
-    function updateProgress(done, total) {
-      const pct = Math.round((done / total) * 100);
-      document.getElementById('progress-bar').style.width = pct + '%';
-      document.getElementById('progress-text').textContent = done < total ? `Summarizing ${done + 1} of ${total}…` : `Done — ${total} emails summarized`;
-    }
-
-    function setBatchLoadingText(txt) {
-      document.getElementById('batch-loading-text').textContent = txt;
-    }
-
-    // ── Helpers ───────────────────────────────────────────────────────────
-
-    function getBody(item) {
-      return new Promise((resolve, reject) => {
-        item.body.getAsync(Office.CoercionType.Text, result => {
-          if (result.status === Office.AsyncResultStatus.Succeeded) resolve(result.value.trim());
-          else reject(new Error(result.error.message));
-        });
-      });
-    }
-
-    function setLoading(tab, on) {
-      const btn = tab === 'current' ? document.getElementById('summarizeBtn') : document.getElementById('batchBtn');
-      btn.disabled = on;
-      document.getElementById('loading-' + tab).style.display = on ? 'block' : 'none';
+    function setLoading(on) {
+      document.getElementById('summarizeBtn').disabled = on;
+      document.getElementById('loading').style.display = on ? 'block' : 'none';
       if (on) {
-        document.getElementById('error-' + tab).style.display = 'none';
-        if (tab === 'current') document.getElementById('result-current').style.display = 'none';
+        document.getElementById('error').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
       }
     }
 
-    function showError(id, msg) {
-      const el = document.getElementById(id);
+    function showError(msg) {
+      const el = document.getElementById('error');
       el.textContent = msg;
       el.style.display = 'block';
     }
 
-    function formatDate(iso) {
-      const d = new Date(iso);
-      const now = new Date();
-      const diff = now - d;
-      if (diff < 86400000 && d.getDate() === now.getDate()) return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      if (diff < 604800000) return d.toLocaleDateString([], {weekday:'short'});
-      return d.toLocaleDateString([], {month:'short', day:'numeric'});
-    }
-
-    function esc(s) {
-      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    async function copyText(id, btn) {
+    async function copyResult(btn) {
       try {
-        await navigator.clipboard.writeText(document.getElementById(id).textContent);
+        await navigator.clipboard.writeText(document.getElementById('resultText').textContent);
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy', 2000);
       } catch(_) {}
