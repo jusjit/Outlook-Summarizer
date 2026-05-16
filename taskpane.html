@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Email Summarizer</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161922;
+      --border: #252a35;
+      --accent: #4b7cf3;
+      --accent-hover: #3d6ce0;
+      --text: #e8eaf0;
+      --text-muted: #6b7385;
+      --danger: #f87171;
+      --danger-bg: rgba(248,113,113,0.08);
+      --danger-border: rgba(248,113,113,0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .header-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .section { margin-bottom: 13px; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 6px;
+    }
+
+    .key-wrap { position: relative; }
+
+    input, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus { border-color: var(--accent); }
+
+    .key-wrap input { padding-right: 48px; }
+
+    .toggle-vis {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 11px;
+      font-family: inherit;
+      padding: 3px 5px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .toggle-vis:hover { color: var(--text); }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+
+    select option { background: #1a1e27; }
+
+    .btn {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 4px;
+      letter-spacing: 0.1px;
+    }
+    .btn:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn:active:not(:disabled) { transform: scale(0.985); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 28px 0;
+    }
+
+    .spinner {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text { font-size: 13px; color: var(--text-muted); }
+
+    .error {
+      display: none;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      border-radius: 8px;
+      padding: 11px 13px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--danger);
+      line-height: 1.5;
+    }
+
+    .result {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .result-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+    }
+
+    .result-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .result-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .ghost-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 5px 11px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .ghost-btn:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-icon">✦</div>
+    <div>
+      <div class="header-title">Email Summarizer</div>
+      <div class="header-sub">Powered by 1min.ai</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <label>1min.ai API Key</label>
+    <div class="key-wrap">
+      <input type="password" id="apiKey" placeholder="Paste your API key…" autocomplete="off" spellcheck="false">
+      <button class="toggle-vis" id="toggleBtn" onclick="toggleKey()">show</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <label>Model</label>
+    <select id="model">
+      <option value="claude-sonnet-4-5">Claude Sonnet 4.5 (Best)</option>
+      <option value="gpt-4o">GPT-4o</option>
+      <option value="gpt-4o-mini">GPT-4o Mini (Fastest)</option>
+      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+      <option value="claude-haiku-4-5-20251001">Claude Haiku (Cheapest)</option>
+    </select>
+  </div>
+
+  <button class="btn" id="summarizeBtn" onclick="summarize()">✦ &nbsp;Summarize this email</button>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Reading and summarizing…</div>
+  </div>
+
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result">
+    <div class="result-label">✦ &nbsp;Summary</div>
+    <div class="result-text" id="resultText"></div>
+    <div class="result-actions">
+      <button class="ghost-btn" onclick="copyResult()">Copy</button>
+      <button class="ghost-btn" onclick="clearResult()">Clear</button>
+    </div>
+  </div>
+
+  <script>
+    Office.onReady(() => {
+      const savedKey = localStorage.getItem('1minai_key');
+      if (savedKey) document.getElementById('apiKey').value = savedKey;
+
+      const savedModel = localStorage.getItem('1minai_model');
+      if (savedModel) {
+        const sel = document.getElementById('model');
+        if ([...sel.options].some(o => o.value === savedModel)) sel.value = savedModel;
+      }
+    });
+
+    function toggleKey() {
+      const input = document.getElementById('apiKey');
+      const btn = document.getElementById('toggleBtn');
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? 'hide' : 'show';
+    }
+
+    async function summarize() {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('model').value;
+
+      if (!apiKey) { showError('Please enter your 1min.ai API key first.'); return; }
+
+      localStorage.setItem('1minai_key', apiKey);
+      localStorage.setItem('1minai_model', model);
+
+      setLoading(true);
+
+      try {
+        const item = Office.context.mailbox.item;
+        const subject = item.subject || '(No subject)';
+        const sender = item.from
+          ? `${item.from.displayName} <${item.from.emailAddress}>`
+          : 'Unknown sender';
+        const date = item.dateTimeCreated
+          ? new Date(item.dateTimeCreated).toLocaleString()
+          : '';
+
+        const body = await new Promise((resolve, reject) => {
+          item.body.getAsync(Office.CoercionType.Text, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+              resolve(result.value.trim());
+            } else {
+              reject(new Error(result.error.message));
+            }
+          });
+        });
+
+        const prompt = `Summarize this email clearly and concisely:
+
+From: ${sender}
+Date: ${date}
+Subject: ${subject}
+
+${body.substring(0, 4000)}
+
+Provide:
+1. Main point (1 sentence)
+2. Key details or requests (bullet points)
+3. Action items or deadlines (if any)`;
+
+        const response = await fetch('https://api.1min.ai/api/features', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'API-KEY': apiKey
+          },
+          body: JSON.stringify({
+            type: 'CHAT_WITH_AI',
+            model: model,
+            promptObject: {
+              prompt: prompt,
+              isMixed: false,
+              webSearch: false
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err?.error?.message || err?.message || `HTTP ${response.status} — check your API key`);
+        }
+
+        const data = await response.json();
+
+        // Parse 1min.ai response (try multiple known formats)
+        const summary =
+          data?.aiRecord?.aiRecordDetail?.resultObject?.[0] ||
+          data?.choices?.[0]?.message?.content ||
+          data?.result ||
+          null;
+
+        if (!summary) throw new Error('Unexpected response from 1min.ai — please try again.');
+
+        document.getElementById('resultText').textContent = summary;
+        document.getElementById('result').style.display = 'block';
+
+      } catch (e) {
+        showError(e.message || 'Something went wrong. Check your API key and try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function setLoading(on) {
+      document.getElementById('summarizeBtn').disabled = on;
+      document.getElementById('loading').style.display = on ? 'block' : 'none';
+      if (on) {
+        document.getElementById('error').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
+      }
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function clearResult() {
+      document.getElementById('result').style.display = 'none';
+    }
+
+    async function copyResult() {
+      const text = document.getElementById('resultText').textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        const btn = event.target;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      } catch (_) {}
+    }
+  </script>
+</body>
+</html>
