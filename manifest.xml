@@ -15,9 +15,9 @@
   <Description DefaultValue="Summarize any email instantly using 1min.ai"/>
 
   <!-- Replace YOUR-GITHUB-USERNAME in all URLs below -->
-  <IconUrl DefaultValue="https://YOUR-GITHUB-USERNAME.github.io/outlook-summarizer/icon.png"/>
-  <HighResolutionIconUrl DefaultValue="https://YOUR-GITHUB-USERNAME.github.io/outlook-summarizer/icon.png"/>
-  <SupportUrl DefaultValue="https://YOUR-GITHUB-USERNAME.github.io/outlook-summarizer"/>
+  <IconUrl DefaultValue="https://jusjit.github.io/Outlook-Summarizer/"/>
+  <HighResolutionIconUrl DefaultValue="https://jusjit.github.io/Outlook-Summarizer/"/>
+  <SupportUrl DefaultValue="https://jusjit.github.io/Outlook-Summarizer/"/>
 
   <AppDomains>
     <AppDomain>https://api.1min.ai</AppDomain>
