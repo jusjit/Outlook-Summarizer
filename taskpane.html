@@ -260,6 +260,8 @@
   </div>
 
   <script>
+    const DEFAULT_API_KEY = '07b796b959b4d95e94e2d6f78df4ab1d95549b802ec36026cec6579052dbb9c5';
+
     const MODEL_HINTS = {
       'gpt-4o-mini':              '💰 Cheapest & fastest — great for high volume',
       'gpt-4o':                   '⭐ Best quality — recommended for most emails',
@@ -336,7 +338,7 @@
 
     Office.onReady(() => {
       const savedKey = loadSetting('1minai_key');
-      if (savedKey) document.getElementById('apiKey').value = savedKey;
+      document.getElementById('apiKey').value = savedKey || DEFAULT_API_KEY;
 
       const savedModel = loadSetting('1minai_model');
       if (savedModel) {
