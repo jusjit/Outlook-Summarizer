@@ -287,23 +287,31 @@
     // Persistent storage helpers — RoamingSettings survives app restarts,
     // unlike localStorage which Outlook mobile's webview can clear between sessions
     function saveSetting(key, value) {
+      try { localStorage.setItem(key, value); } catch(e) {}
       try {
         if (Office.context.roamingSettings) {
           Office.context.roamingSettings.set(key, value);
-          Office.context.roamingSettings.saveAsync();
+          Office.context.roamingSettings.saveAsync(result => {
+            if (result.status !== Office.AsyncResultStatus.Succeeded) {
+              console.log('roamingSettings save failed, relying on localStorage');
+            }
+          });
         }
-      } catch(e) { /* fall through to localStorage below */ }
-      try { localStorage.setItem(key, value); } catch(e) {}
+      } catch(e) { /* localStorage already saved above as fallback */ }
     }
 
     function loadSetting(key) {
+      try {
+        const v = localStorage.getItem(key);
+        if (v !== null && v !== undefined) return v;
+      } catch(e) {}
       try {
         if (Office.context.roamingSettings) {
           const v = Office.context.roamingSettings.get(key);
           if (v !== undefined && v !== null) return v;
         }
       } catch(e) {}
-      try { return localStorage.getItem(key); } catch(e) { return null; }
+      return null;
     }
 
     // Wait for Office.context.mailbox.item to actually be populated —
