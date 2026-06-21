@@ -6,7 +6,7 @@
   xsi:type="MailApp">
 
   <Id>4f7e9a3b-8c2d-4e5f-a1b6-9d8e3c7f2a1b</Id>
-  <Version>1.0.6.0</Version>
+  <Version>1.0.7.0</Version>
   <ProviderName>AI Email Summarizer</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="AI Summarizer"/>
@@ -32,7 +32,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://jusjit.github.io/Outlook-Summarizer/taskpane.html"/>
+        <SourceLocation DefaultValue="https://jusjit.github.io/Outlook-Summarizer/taskpane.html?v=2"/>
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -128,7 +128,7 @@
         </bt:Images>
         <bt:Urls>
           <bt:Url id="Commands.Url" DefaultValue="https://jusjit.github.io/Outlook-Summarizer/commands.html"/>
-          <bt:Url id="Taskpane.Url" DefaultValue="https://jusjit.github.io/Outlook-Summarizer/taskpane.html"/>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://jusjit.github.io/Outlook-Summarizer/taskpane.html?v=2"/>
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="GroupLabel" DefaultValue="AI Tools"/>
