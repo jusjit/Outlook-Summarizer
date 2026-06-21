@@ -284,23 +284,65 @@
     ];
     let loadingInterval;
 
+    // Persistent storage helpers — RoamingSettings survives app restarts,
+    // unlike localStorage which Outlook mobile's webview can clear between sessions
+    function saveSetting(key, value) {
+      try {
+        if (Office.context.roamingSettings) {
+          Office.context.roamingSettings.set(key, value);
+          Office.context.roamingSettings.saveAsync();
+        }
+      } catch(e) { /* fall through to localStorage below */ }
+      try { localStorage.setItem(key, value); } catch(e) {}
+    }
+
+    function loadSetting(key) {
+      try {
+        if (Office.context.roamingSettings) {
+          const v = Office.context.roamingSettings.get(key);
+          if (v !== undefined && v !== null) return v;
+        }
+      } catch(e) {}
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    }
+
+    // Wait for Office.context.mailbox.item to actually be populated —
+    // fixes "Cannot read properties of undefined (reading 'item')" on Outlook mobile
+    function waitForMailboxItem(maxAttempts, delayMs) {
+      return new Promise((resolve, reject) => {
+        let attempts = 0;
+        const check = () => {
+          attempts++;
+          const item = Office.context && Office.context.mailbox && Office.context.mailbox.item;
+          if (item) {
+            resolve(item);
+          } else if (attempts >= maxAttempts) {
+            reject(new Error('Could not load this email. Try closing and reopening the add-in, or fully restart the Outlook app.'));
+          } else {
+            setTimeout(check, delayMs);
+          }
+        };
+        check();
+      });
+    }
+
     Office.onReady(() => {
-      const savedKey = localStorage.getItem('1minai_key');
+      const savedKey = loadSetting('1minai_key');
       if (savedKey) document.getElementById('apiKey').value = savedKey;
 
-      const savedModel = localStorage.getItem('1minai_model');
+      const savedModel = loadSetting('1minai_model');
       if (savedModel) {
         const sel = document.getElementById('model');
         if ([...sel.options].some(o => o.value === savedModel)) sel.value = savedModel;
       }
 
-      const savedFont = localStorage.getItem('1minai_font');
+      const savedFont = loadSetting('1minai_font');
       if (savedFont) { fontSize = parseInt(savedFont); applyFont(); }
 
-      const savedTheme = localStorage.getItem('1minai_theme');
+      const savedTheme = loadSetting('1minai_theme');
       if (savedTheme === 'light') applyTheme(false);
 
-      const savedLength = localStorage.getItem('1minai_length');
+      const savedLength = loadSetting('1minai_length');
       if (savedLength) {
         summaryLength = savedLength;
         document.querySelectorAll('.pill').forEach(p => {
@@ -317,7 +359,7 @@
 
     function setLength(len, btn) {
       summaryLength = len;
-      localStorage.setItem('1minai_length', len);
+      saveSetting('1minai_length', len);
       document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
     }
@@ -332,7 +374,7 @@
 
     function adjustFont(delta) {
       fontSize = Math.min(18, Math.max(11, fontSize + delta));
-      localStorage.setItem('1minai_font', fontSize);
+      saveSetting('1minai_font', fontSize);
       applyFont();
     }
 
@@ -346,7 +388,7 @@
     function toggleTheme() {
       isDark = !isDark;
       applyTheme(isDark);
-      localStorage.setItem('1minai_theme', isDark ? 'dark' : 'light');
+      saveSetting('1minai_theme', isDark ? 'dark' : 'light');
     }
 
     function applyTheme(dark) {
@@ -360,12 +402,12 @@
       const model = document.getElementById('model').value;
       if (!apiKey) { showError('Please enter your 1min.ai API key first.'); return; }
 
-      localStorage.setItem('1minai_key', apiKey);
-      localStorage.setItem('1minai_model', model);
+      saveSetting('1minai_key', apiKey);
+      saveSetting('1minai_model', model);
       setLoading(true);
 
       try {
-        const item = Office.context.mailbox.item;
+        const item = await waitForMailboxItem(10, 300);
         const subject = item.subject || '(No subject)';
         const sender = item.from ? `${item.from.displayName} <${item.from.emailAddress}>` : 'Unknown sender';
         const date = item.dateTimeCreated ? new Date(item.dateTimeCreated).toLocaleString() : '';
